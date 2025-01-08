@@ -221,5 +221,5 @@ Este projeto é licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE
 
 Para dúvidas ou suporte, entre em contato:
 - **E-mail:** jefferson.ti@hotmail.com.br
-- **GitHub:** [link-do-repositorio]
+- **GitHub:** [link-do-repositorio](https://github.com/0rakul0/DevOps_Diarios)
 
