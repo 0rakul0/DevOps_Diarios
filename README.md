@@ -247,21 +247,12 @@ Se você deseja contribuir para este projeto, siga as etapas abaixo:
    - Crie um Pull Request no repositório original para revisar e fundir suas alterações.
 
 ---
-
 ## Licença
-
 Este projeto é licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
 ---
 
 ## Contato
 
 Para dúvidas ou suporte, entre em contato:
 - **E-mail:** jefferson.ti@hotmail.com.br
-- **GitHub:** [LINK_DO_REPOSITORIO](https://github.com/0rakul0/DevOps_Diarios)
-
-## Contribuições
-
-Sinta-se à vontade para abrir issues ou enviar pull requests para melhorar o projeto. 
-Para feedback ou dúvidas, entre em contato: **<seu-email-aqui>**.
-
+- **GitHub:** [link-do-repositorio](https://github.com/0rakul0/DevOps_Diarios)
