@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import requests
 from selenium import webdriver
 from selenium.webdriver.edge.options import Options
+from util.routes import definir_caminho, verifica_caminho
 
 class RoboDiario:
     def __init__(self, config_path):
@@ -46,12 +47,11 @@ class RoboDiario:
 
     def download_atualizacao_diaria(self):
         options = Options()
-        # options.add_argument("--headless")
+        options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
         driver = webdriver.Edge(options=options)
-
         atual = datetime.now().date()
         for cod in self.cadernos:
             data = self.data_inicial(f"{self.nomeDiario}_{self.cadernos[cod]}")
@@ -59,25 +59,19 @@ class RoboDiario:
                 data_str = data.strftime("%Y_%m_%d")
                 nome = f"{self.nomeDiario}_{self.cadernos[cod]}_{data_str}.pdf"
                 data_url = data.strftime("%d/%m/%Y")
-                if self.verifica_pdf(nome):
+                if verifica_caminho(nome):
                     url = self._get_diario(driver, data_url, cod)
                     if url:
                         self._salva_pdf(nome, url)
+                else:
+                    print(f"o arquivo {nome} já existe.")
 
-                data = data + timedelta(days=1)
+                data += timedelta(days=1)
 
         driver.quit()
 
-    def verifica_pdf(self, nome):
-        print(nome)
-        if os.path.exists(f'./dados/{nome}'):
-            return False
-        else:
-            return True
-
     def _salva_pdf(self, nome, url):
         try:
-
             self.salva_pdf(nome, url)
             print(f"Arquivo salvo: {nome}")
         except Exception as e:
@@ -86,9 +80,11 @@ class RoboDiario:
     def salva_pdf(self, nome, url):
         try:
             response = requests.get(url, stream=True)
+            time.sleep(1)
             if response.headers["Content-Type"] == "application/pdf":
-                os.makedirs("./dados", exist_ok=True)
-                with open(f"./dados/{nome}", "wb") as pdf_file:
+                caminho = definir_caminho(nome)
+                caminho_completo = os.path.join(caminho, nome)
+                with open(caminho_completo, "wb") as pdf_file:
                     for chunk in response.iter_content(chunk_size=1024):
                         pdf_file.write(chunk)
                 print(f"PDF salvo com sucesso: {nome}")
@@ -101,7 +97,7 @@ class RoboDiario:
         try:
             url = self.gerar_url(data=data_url, cad=cod)
             driver.get(url)
-
+            time.sleep(1)
             if "Nenhuma publicação encontrada" not in driver.page_source:
                 if self.verifica(driver.page_source):
                     return url

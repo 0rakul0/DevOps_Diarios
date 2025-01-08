@@ -12,10 +12,13 @@ O projeto está organizado da seguinte forma:
 ```
 ├── configs
 │   └── config_rj.yml         # Arquivo de configuração YAML
-├── dados                     # Diretório onde os PDFs baixados serão salvos
+├── dados                     # Diretório onde os PDFs baixados são salvos
+├── logs                      # Diretório para armazenar os arquivos de log
 ├── RoboDiario.py             # Script principal do robô
-├── logs                      # Diretório para arquivos de log
-└── README.md                 # Documento de orientação
+├── engine.py                 # Classe principal para automação e lógica
+├── util
+│   └── routes.py             # Funções auxiliares para manipulação de caminhos
+└── README.md                 # Documento de orientação do projeto
 ```
 
 ---
@@ -31,6 +34,40 @@ Certifique-se de que você tem os seguintes componentes instalados:
    - `requests`
 3. **Driver Selenium**:
    - Microsoft Edge WebDriver (compatível com a versão do seu navegador Edge)
+
+---
+
+## Funcionalidades Principais
+
+### 1. **Download Organizado de PDFs**
+   - Os diários oficiais são baixados automaticamente para os diretórios correspondentes, organizados por estado, tipo de diário, ano e mês.
+   - O nome dos arquivos segue o padrão: `DJ<ESTADO>_<CADERNO>_<YYYY_MM_DD>.pdf`.
+
+### 2. **Controle de Atualização**
+   - O robô mantém um histórico das datas já processadas e baixa apenas os arquivos que ainda não foram salvos.
+
+### 3. **Configuração Flexível**
+   - Os parâmetros de URLs, cadernos, tempos de espera, e logs são completamente personalizáveis via um arquivo de configuração YAML.
+
+### 4. **Sistema de Logs**
+   - Logs detalhados para registrar erros e operações realizadas durante a execução.
+
+---
+
+## Melhorias Recentes
+
+1. **Validação do Nome dos Arquivos**  
+   - O script agora valida o nome dos arquivos PDF com um regex robusto antes de salvá-los.  
+   - Caminhos são gerados automaticamente com base no estado, tipo do diário e data.
+
+2. **Organização por Subdiretórios**  
+   - PDFs são salvos em subdiretórios estruturados no formato: `./dados/<ESTADO>/<TIPO_DIARIO>/<ANO>/<MES>/`.
+
+3. **Funções Auxiliares Modulares**  
+   - A lógica para definir caminhos e verificar se arquivos já existem foi movida para o módulo `routes.py` em `util`.
+
+4. **Melhor Tratamento de Exceções**  
+   - Logs mais detalhados para rastrear falhas em downloads ou na geração de URLs.
 
 ---
 
@@ -221,5 +258,10 @@ Este projeto é licenciado sob a licença MIT - veja o arquivo [LICENSE](LICENSE
 
 Para dúvidas ou suporte, entre em contato:
 - **E-mail:** jefferson.ti@hotmail.com.br
-- **GitHub:** [link-do-repositorio]
+- **GitHub:** [LINK_DO_REPOSITORIO](https://github.com/0rakul0/DevOps_Diarios)
+
+## Contribuições
+
+Sinta-se à vontade para abrir issues ou enviar pull requests para melhorar o projeto. 
+Para feedback ou dúvidas, entre em contato: **<seu-email-aqui>**.
 
