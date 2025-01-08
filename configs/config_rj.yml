@@ -1,0 +1,47 @@
+nomeDiario:
+  nome: "DJRJ"
+
+urls:
+  diario_url: "https://www3.tjrj.jus.br/consultadje/pdf.aspx?dtPub={data}&caderno={cad}&pagina=-1"
+
+http:
+  timeout: 10
+  headers:
+    User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0"
+    Accept: "application/json, text/javascript, */*; q=0.01"
+    X-Requested-With: "XMLHttpRequest"
+
+logs:
+  log_file: "log_robo_rj.txt"
+  error_file: "erro_robo_rj.txt"
+
+captcha:
+  min_wait_time: 5
+
+cadernos:
+  A: "Administrativo"
+  S: "Judicial_-_2_Instancia"
+  C: "Judicial_-_1_Instancia_Capital"
+  I: "Judicial_-_1_Instancia_Interior"
+  E: "Edital"
+
+data:
+  limite: "2025-01-02"
+
+etapas:
+  - descricao: "Baixar os diários oficiais por caderno e data"
+    metodo: "download_atualizacao_diaria"
+    parametros: {}
+
+  - descricao: "Obter a URL do diário oficial"
+    metodo: "_get_diario"
+    parametros:
+      driver: "Driver Selenium configurado"
+      data_url: "Data formatada no padrão dd/MM/yyyy"
+      cod: "Código do caderno"
+
+  - descricao: "Salvar o PDF da URL válida"
+    metodo: "_salva_pdf"
+    parametros:
+      nome: "Nome do arquivo PDF no formato NomeDiario_Caderno_Data.pdf"
+      url: "URL do diário oficial válido"
