@@ -1,0 +1,51 @@
+nomeDiario:
+  nome: "DJSP"
+
+urls:
+  diario_url: "https://www.dje.tjsp.jus.br/cdje/downloadCaderno.do?dtDiario={data}&cdCaderno={cad}"
+
+http:
+  timeout: 10
+  headers:
+    User-Agent: "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0"
+    Accept: "application/json, text/javascript, */*; q=0.01"
+    X-Requested-With: "XMLHttpRequest"
+
+logs:
+  log_file: "log_robo_sp.txt"
+  error_file: "erro_robo_sp.txt"
+
+captcha:
+  min_wait_time: 5
+
+cadernos:
+  10: "Administrativo"
+  11: "Suplemento_Judiciario_I_parte_I"
+  19: "Suplemento_Judiciario_I_parte_II"
+  12: "Suplemento_Judicial_I_Capital_Parte_I"
+  20: "Suplemento_Judicial_I_Capital_Parte_II"
+  18: "Suplemento_Judicial_I_Interior_Parte_I"
+  13: "Suplemento_Judicial_I_Interior_Parte_II"
+  15: "Suplemento_Judicial_I_Interior_Parte_III"
+  14: "Suplemento_Editais_e_Leiloes"
+
+data:
+  limite: "2025-01-02"
+
+etapas:
+  - descricao: "Baixar os diários oficiais por caderno e data"
+    metodo: "download_atualizacao_diaria"
+    parametros: {}
+
+  - descricao: "Obter a URL do diário oficial"
+    metodo: "_get_diario"
+    parametros:
+      driver: "Driver Selenium configurado"
+      data_url: "Data formatada no padrão dd/MM/yyyy"
+      cod: "Código do caderno"
+
+  - descricao: "Salvar o PDF da URL válida"
+    metodo: "_salva_pdf"
+    parametros:
+      nome: "Nome do arquivo PDF no formato NomeDiario_Caderno_Data.pdf"
+      url: "URL do diário oficial válido"

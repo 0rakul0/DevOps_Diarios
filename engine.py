@@ -47,7 +47,7 @@ class RoboDiario:
 
     def download_atualizacao_diaria(self):
         options = Options()
-        options.add_argument("--headless")
+        # options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
@@ -79,7 +79,7 @@ class RoboDiario:
 
     def salva_pdf(self, nome, url):
         try:
-            response = requests.get(url, stream=True)
+            response = requests.get(url, stream=True, verify=False)
             time.sleep(1)
             if response.headers["Content-Type"] == "application/pdf":
                 caminho = definir_caminho(nome)
@@ -98,7 +98,7 @@ class RoboDiario:
             url = self.gerar_url(data=data_url, cad=cod)
             driver.get(url)
             time.sleep(1)
-            if "Nenhuma publicação encontrada" not in driver.page_source:
+            if "Nenhuma publicação encontrada" not in driver.page_source or "Erro ao acessar o caderno selecionado" in driver.page_source:
                 if self.verifica(driver.page_source):
                     return url
             else:
@@ -107,7 +107,6 @@ class RoboDiario:
         except Exception as e:
             print(f"Erro ao obter URL para {data_url} no caderno {cod}: {e}")
             return None
-
 
     def verifica(self, html):
         texto = re.search("There is no row at position 0", html)
@@ -132,7 +131,8 @@ class RoboDiario:
         return ultima_data if ultima_data else self.data_limite()
 
     def gerar_url(self, data, cad):
-        return self.__url.format(data=data, cad=cad)
+        url = self.__url.format(data=data, cad=cad)
+        return url
 
     def data_limite(self):
         return self.data_limite_config

@@ -20,9 +20,6 @@ captcha:
 
 cadernos:
   A: "Administrativo"
-  S: "Judicial_-_2_Instancia"
-  C: "Judicial_-_1_Instancia_Capital"
-  I: "Judicial_-_1_Instancia_Interior"
   E: "Edital"
 
 data:
